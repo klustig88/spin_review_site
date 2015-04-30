@@ -1,0 +1,61 @@
+<!doctype html>
+<html>
+<head>    
+	<meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sample Page</title>
+    <!-- <link rel="stylesheet" href="foundation.css" /> -->
+    <!-- <link rel="stylesheet" type="text/css" href="media.css"> -->
+    <script src="js/vendor/modernizr.js"></script>
+    <!-- Start of Async HubSpot Analytics Code -->
+	  <script type="text/javascript">
+	    (function(d,s,i,r) {
+	      if (d.getElementById(i)){return;}
+	      var n=d.createElement(s),e=d.getElementsByTagName(s)[0];
+	      n.id=i;n.src='//js.hs-analytics.net/analytics/'+(Math.ceil(new Date()/r)*r)+'/29492.js';
+	      e.parentNode.insertBefore(n, e);
+	    })(document,"script","hs-analytics",300000);
+	  </script>
+	<!-- End of Async HubSpot Analytics Code -->
+</head>
+<body>
+
+	<div class="header">
+
+			<a href="http://www.snap36.com"><img src="http://cdn2.hubspot.net/hub/29492/file-705818670-jpg/TradeShows/IR_B2B/landingpagehead.jpg"></a>
+		
+	</div>
+
+	
+
+	<div id="login-toolbar">
+	      <% if current_user %>
+	        <a href="/logout">Logout</a>
+	      <% else %>
+	        <div class="login">
+
+		      <form method="post" action='/login'>
+		           <label>Username: <input type="text" name="user[name]"></label>
+				    <br>
+				    <label>Password: <input type="text" name="user[password]"></label>
+				    <br>
+				    <input type="submit" value="Log in">
+				  
+		      </form>
+		    </div>
+		    <div class="login-help">
+			   	<p>Forgot your password? <a href="index.html">Click here to reset it</a>.</p>
+			 </div>
+			<% end %>
+	</div>
+	 
+ 	<div class="footer">
+
+			<img src="http://cdn2.hubspot.net/hub/29492/file-704215607-png/Banners/WeGetAround.png?t=1407167395510">
+		
+	</div>
+
+  
+
+</body>
+</html>

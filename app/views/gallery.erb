@@ -1,0 +1,68 @@
+<html>
+<head>
+	<title>Gallery</title>
+</head>
+<body>
+
+	<div id='content'>
+
+		<div class="header">
+
+        	<a href="https://www.snap36.com"><img src="https://cdn2.hubspot.net/hub/29492/file-705818670-jpg/TradeShows/IR_B2B/landingpagehead.jpg"></a>
+      
+    	</div>
+
+    	<br>
+
+
+		
+
+			<div class="navigation">
+		    
+		<a href="/approveditems/0"><div>Approved</div></a>
+	    <a href="/rejecteditems/0"><div>Rejected</div></a>
+	    <a href="/notreviewed/0"><div>Not Reviewed</div></a>
+		<div><b>Status</b></div>
+		<a href="/find"><div>Find By ID</div></a>
+
+
+
+
+
+		  	</div>
+
+		  	<br>
+
+		  	<div>Gallery:</div>
+			
+			<br>
+			 <% @complete =  Spin.all.order('id ASC')%>
+			 <% @complete.each do |item| %>
+
+			 <div class='galleryspin'>
+				 <div><a href="/spins/<%=item.id%>"><%= item.name %></a>
+				 	<br>
+
+				 <img src="/img/<%=item.name%>/<%= item.name %>-small-01-01.jpg" width='30%' height='30%'>
+
+				<div class='gallery'>
+				  <% if item.approval == "[\"approved\"]"  %>
+					<div> Status:  Approved</div>
+				  <% elsif item.approval == nil %>
+				 	<div>Status:  Not Reviewed</div>
+				  <% else  %>
+				 	<div>Status:  Rejected</div>
+				  <% end %>
+				</div>
+			</div>
+
+
+		 </div>
+
+		 <br>
+		 <br>
+
+		 <% end %>
+	</div>
+</body>
+</html>

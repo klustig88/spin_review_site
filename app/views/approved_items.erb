@@ -1,0 +1,243 @@
+<html>
+<head>
+	<title>Approved Items</title>
+	  <script src="/magic360/magic360.js" type="text/javascript"></script>
+<link rel="stylesheet" type="text/css" href="/magic360/magic360.css">
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script type="text/javascript">
+          $(document).ready(function(){
+
+
+            $(".comments").hide();
+            $("#hidecomments").hide();
+            $("#reasonrejected").hide();
+
+            $("#commentbutton").click(function() {
+              $(".comments").show();
+              $("#hidecomments").show();
+              $("#commentbutton").hide();
+
+
+            });  
+
+             $("#hidecomments").click(function() {
+              $(".comments").hide();
+              $("#hidecomments").hide();
+              $("#commentbutton").show();
+
+
+            });  
+
+             var button1 = document.getElementById("rejectedbutton")
+             var button2 = document.getElementById("approvedbutton")
+
+             if (button1.checked) {
+                
+                $("#reasonrejected").show();
+
+             } else if (button2.checked) {
+
+               $("#reasonrejected").hide();
+             
+             } else {
+
+              $("#reasonrejected").hide();
+             }
+
+
+
+            });
+
+          
+
+          </script>
+</head>
+<body>
+
+	<div id='content'>
+
+		<div class="header">
+
+	        	<a href="https://www.snap36.com"><img src="https://cdn2.hubspot.net/hub/29492/file-705818670-jpg/TradeShows/IR_B2B/landingpagehead.jpg"></a>
+	      
+	    </div>
+
+		
+
+		<div class="navigation">
+	    
+
+		    <div><b>Approved</b></div>
+		    <a href="/rejecteditems/0"><div>Rejected</div></a>
+		    <a href="/notreviewed/0"><div>Not Reviewed</div></a>
+        <a href="/gallery"><div>Status</div></a>
+		    <a href="/find"><div>Find By ID</div></a>
+
+	  	</div>
+
+	  	<br>
+           <button id='commentbutton'>Show Comments</button>
+          <button id='hidecomments'>Hide Comments</button>
+
+	  	<div>Approved Items:</div>
+
+	  	<br>
+	  	<% @number = params[:splat].first.to_i %>
+		<% @complete =  Spin.where(:approval => "[\"approved\"]").order('id ASC').offset(@number).limit(5)%>
+		<% @complete.each do |item| %>
+
+		  <div class='outline'>
+    
+    
+          
+
+      <div class='viewercontainer'>
+        <div align='center'> <%= item.name %></div>
+        <div align='center'> <%= item.id %></div>
+
+
+         <div class="viewer">
+            <a href="/img/<%= item.name %>/<%= item.name %>-big-01-01.jpg" class="Magic360" data-magic360-options="columns: <%= item.column %>; rows: <%= item.row %>; filename: <%= item.name %>-small-{row}-{col}.jpg"; large-filename: "<%= item.name %>-big-{row}-{col}.jpg;" ><img src="/img/<%= item.name %>/<%= item.name %>-small-01-01.jpg"/></a> 
+            
+
+         </div> 
+
+         <p>Stills</p>
+             
+          <div class='stills'>
+
+            <% @stills =  Still.where(:spinname => item.name) %>
+            <% @stills.each do |x| %>
+
+            <p> <%= x.name %></p>
+
+            <img src="/stills/<%= item.name %>/<%= x.name %>" height='300' width='300'>
+
+            <% end %>
+          </div>
+
+
+         
+         <div class='decision'>
+         <form action="/spins/<%= item.id %>/approval" method="post" name="decision">
+          
+
+
+            <% if item.approval == "[\"approved\"]"  %>
+            
+            
+            <%= erb :_approvedform %>
+
+             <% elsif item.approval == nil %>
+             
+            <%= erb :_form %>
+         
+
+              <% else  %>
+
+               <%=  erb :_rejectedform %>
+
+
+              
+          
+
+
+          <% end %>
+
+         
+          
+            </form>
+
+           
+            </div>
+        </div>
+  
+		<br>
+
+
+
+	</div>
+
+
+  <form action="/spins/<%= item.id %>/comments" method="post" name="comments" id='comments'>
+          <div class='comments'>
+            <div>
+            <div>Comments for <%= item.name %></div>
+            
+            <textarea name="comment[]" ROWS="3" COLS="25">
+
+
+            </textarea>
+          </div>
+
+
+
+          
+          <input type='submit'  value='Submit'>
+           </form>
+
+           <div id='comment-box' >
+             <% @count = 1  %>
+
+            <% @ment = Comment.where(:spinid => item.id)  %>
+           
+
+      
+            <% @ment.each do |x| %>
+
+            <text><%= @count %>:<%= x.text %></text>
+
+             <% @count += 1  %>
+
+            <% end %>
+
+
+
+          </div>
+
+
+
+
+
+                     
+          </div>
+           <% end %>
+        
+          
+
+
+      <div class='direction'>
+
+
+        
+        <% if @totalsize < 5 %>
+
+          <div> </div>
+
+        <% elsif params[:splat].first.to_i < 5 %>
+
+         <a href="/approveditems/<%= @number + 5 %>" class="btn"  id='next'>Next</a>
+
+         <% elsif  params[:splat].first.between?('4','@totalsize') %>
+
+          <a href="/approveditems/<%= @number - 5 %>" class="btn">Previous</a>
+          <a href="/approveditems/<%= @number + 5 %>" class="btn" id='next'>Next</a>
+
+        <% elsif params[:splat].first.to_i > @totalsize %>
+
+          <a href="/approveditems/<%= @number - 5 %>" class="btn">Previous</a>
+
+     
+
+        <% else %>
+
+        	<%= %>
+      
+        <% end %>
+
+      </div>
+
+
+
+</body>
+</html>
